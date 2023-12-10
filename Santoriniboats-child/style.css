@@ -123,3 +123,15 @@ span.wcpa_helptext {
 .cruise-discounts .from-date strong {
 	color: red !important;
 }
+.carousel_row .carousel_img img {
+    height: 350px;
+	}
+#book_now .carousel_row .carousel_img img {
+height: 200px;
+}
+.price-content {
+	margin-top: 3.4rem;
+}
+#book_now > .price-content > h4 {
+	margin-bottom: 0!important;
+}
