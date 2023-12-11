@@ -8,7 +8,6 @@ function my_theme_scripts()
     wp_enqueue_script('jquery', 'https://code.jquery.com/jquery-3.6.4.min.js', array('jquery'), '3.6.4', true);
 
     wp_enqueue_script('jquery-migrate', 'https://code.jquery.com/jquery-migrate-1.4.1.min.js', array('jquery'), '3.6.4', true);
-
 }
 
 add_action('wp_enqueue_scripts', 'my_theme_scripts');
@@ -27,8 +26,8 @@ function save_event_data_callback()
     $post_id =  $data['productId'];
     error_log('error_log: ' . $post_id);
     // Update post meta with a specific key
-    update_post_meta( $post_id, 'start_date', $data['start']);
-    update_post_meta( $post_id, 'end_date', $data['end']);
+    update_post_meta($post_id, 'start_date', $data['start']);
+    update_post_meta($post_id, 'end_date', $data['end']);
     // Process the data (you can save it to a file, database, etc.)
     // For example, saving to a file:
     // $file_path = get_stylesheet_directory() . '/page-templates/events.php';
@@ -57,7 +56,6 @@ function save_event_data_callback()
 function localize_ajax_url()
 {
     echo '<script type="text/javascript">var ajaxurl = "' . admin_url('admin-ajax.php') . '";</script>';
-
 }
 add_action('wp_head', 'localize_ajax_url');
 
@@ -84,7 +82,7 @@ require_once get_stylesheet_directory() . '/travel/travel-functions.php';
 
 
 
-if (!function_exists('minimalist_writer_sidebars_register')):
+if (!function_exists('minimalist_writer_sidebars_register')) :
 
     function minimalist_writer_sidebars_register()
     {
@@ -112,7 +110,6 @@ if (!function_exists('minimalist_writer_sidebars_register')):
             )
 
         );
-
     }
 
 
@@ -128,31 +125,29 @@ endif;
 function enable_readmore()
 {
 
-    ?>
+?>
 
     <script type="text/javascript">
-
-        jQuery(document).ready(function ($) {
-
+        jQuery(document).ready(function($) {
 
 
-            $('.readMore').on('click', function () {
+
+            $('.readMore').on('click', function() {
 
                 $('.packageReadMore').slideToggle();
 
 
 
-                ($(this).text() === "Read More") ? $(this).text("Show Less") : $(this).text("Read More");
+                ($(this).text() === "Read More") ? $(this).text("Show Less"): $(this).text("Read More");
 
                 return false;
 
             });
 
         });
-
     </script>
 
-    <?php
+<?php
 
 }
 
@@ -185,7 +180,7 @@ function woocommerce_single_product_summary()
 
     $html = '<div class="cruise-discounts">';
 
-    if (!empty($discounts)):
+    if (!empty($discounts)) :
 
         foreach ($discounts as $d) {
 
@@ -200,9 +195,7 @@ function woocommerce_single_product_summary()
                 $discountDays = $d['cruise-discount-dates'];
 
                 $html .= '<div class="from-date">From ' . $discountDays['from'] . ' to ' . $discountDays['to'] . ': <strong>' . $discountPrice . '</strong> €</div>';
-
             }
-
         }
 
     endif;
@@ -212,7 +205,6 @@ function woocommerce_single_product_summary()
 
 
     echo $html;
-
 }
 
 
@@ -231,9 +223,7 @@ if (!function_exists('awcdp_build_payment_schedule')) {
         // Return the desired value or do nothing
 
         return array();
-
     }
-
 }
 
 
@@ -274,7 +264,6 @@ function bbloomer_add_css_to_emails($css, $email)
 .wc-item-meta li:last-child{display:none!important}';
 
     return $css;
-
 }
 
 
@@ -282,4 +271,3 @@ function bbloomer_add_css_to_emails($css, $email)
 
 
 require_once('page-templates/cruises_settings.php');
-
