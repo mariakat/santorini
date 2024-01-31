@@ -235,13 +235,6 @@ function my_admin_page_contents()
                     </option>
 
 
-
-
-
-
-
-
-
                 <?php }
                 }
 
@@ -282,7 +275,6 @@ function my_admin_page_contents()
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
 
             <button type="button" onClick="submitForm()" class="btn btn-primary">Save changes</button>
-            <button type="button" onClick="" id="delete_button" class="btn btn-primary">Delete</button>
 
           </div>
 
@@ -304,7 +296,7 @@ function my_admin_page_contents()
             <p id="eventTitle"></p>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-danger" id="deleteEventBtn">Delete Event</button>
+            <button type="button" onclick="deleteButton()" class="btn btn-danger" id="deleteEventBtn">Delete Event</button>
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
           </div>
         </div>
@@ -317,8 +309,10 @@ function my_admin_page_contents()
         var title = jQuery('#productsSelect option:selected').val();
         var start = jQuery('#evtStart').val();
         var end = jQuery('#evntEnd').val();
+        var id = Math.floor(Math.random() * 100) + 1;
 
         var data = {
+          id: id,
           productId: productId,
           title: title,
           start: start,
@@ -348,6 +342,47 @@ function my_admin_page_contents()
             console.error('Error writing to JSON file:', error);
           }
         });
+      }
+
+      function deleteButton() {
+        var productId = jQuery('#productsSelect option:selected').attr('id');
+        var title = jQuery('#productsSelect option:selected').val();
+        var start = jQuery('#evtStart').val();
+        var end = jQuery('#evntEnd').val();
+        var id = Math.floor(Math.random() * 100) + 1;
+
+        var data = {
+          id: id,
+          productId: productId,
+          title: title,
+          start: start,
+          end: end
+        };
+
+        // console.log('Raw JSON data: ' + JSON.stringify(data));
+
+
+        var dataToSend = {
+          action: 'delete_event_data', // Specify the AJAX action
+
+          data: encodeURIComponent(JSON.stringify(data)) // Use the key 'json' and stringify the data
+        };
+
+        // Send AJAX request to a PHP script
+        jQuery.ajax({
+          type: 'POST',
+          url: ajaxurl,
+          data: dataToSend,
+          success: function(response) {
+            // console.log(data);
+
+            location.reload()
+          },
+          error: function(error) {
+            console.error('Error writing to JSON file:', error);
+          }
+        });
+
       }
     </script>
 

@@ -24,6 +24,7 @@ function save_event_data_callback()
     $json_data = urldecode($_POST['data']);
     $data = json_decode($json_data, true);
     $post_id =  $data['productId'];
+
     error_log('error_log: ' . $post_id);
     // Update post meta with a specific key
     update_post_meta($post_id, 'start_date', $data['start']);
@@ -51,6 +52,49 @@ function save_event_data_callback()
     // Always exit to avoid extra output
     wp_die();
 }
+
+
+
+add_action('wp_ajax_nopriv_delete_event_data', 'delete_event_data_callback');
+add_action('wp_ajax_delete_event_data', 'delete_event_data_callback');
+
+function delete_event_data_callback()
+{
+    // Your AJAX handling logic here
+    // Verify nonce
+
+    // Retrieve data sent via AJAX
+    $json_data = urldecode($_POST['data']);
+    $data = json_decode($json_data, true);
+    $post_id_to_delete = $data['id'];
+    $post_id =  $data['productId'];
+
+
+    update_post_meta($post_id, 'start_date', ' ');
+    update_post_meta($post_id, 'end_date', ' ');
+
+    // Load existing data from the JSON file if it exists
+    $file_path_json = get_stylesheet_directory() . '/page-templates/events_data.json';
+    $existing_data = file_exists($file_path_json) ? json_decode(file_get_contents($file_path_json), true) : [];
+
+    // Find and remove the object with the specified ID
+    foreach ($existing_data as $key => $event) {
+        if ($event['id'] === $post_id_to_delete) {
+            unset($existing_data[$key]);
+            break;
+        }
+    }
+
+    // Save the updated array as a JSON file
+    file_put_contents($file_path_json, json_encode(array_values($existing_data)));
+
+    // Send a response (optional)
+    wp_send_json_success('Data deleted successfully!');
+
+    // Always exit to avoid extra output
+    wp_die();
+}
+
 
 
 function localize_ajax_url()
