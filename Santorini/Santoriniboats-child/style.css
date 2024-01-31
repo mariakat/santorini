@@ -128,9 +128,19 @@ span.wcpa_helptext {
 	}
 #book_now .carousel_row .carousel_img img {
 height: 200px;
+	object-fit:cover!important;
+}
+#catamaran .plan-price,
+#islands .plan-price {
+	display:none!important;
+}
+.price-content h4 {
+	font-weight:700!important;
 }
 .price-content {
 	margin-top: 3.4rem;
+	display: flex;
+    justify-content: center;
 }
 #book_now > .price-content > h4 {
 	margin-bottom: 0!important;

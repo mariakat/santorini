@@ -12,8 +12,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     });
-    console.log(calendar);
-    console.log(bookingDates);
+    // console.log(calendar);
+    // console.log(bookingDates);
     // console.log(bookingDates[0].name);
     // var al = '';
     // for (const key in bookingDates) {

@@ -56,7 +56,6 @@ function my_admin_page_contents()
 
         var calendarEl = document.getElementById('calendar');
         var feed_url = '<?php echo get_stylesheet_directory_uri() ?>/page-templates/events_data.json';
-        console.log(feed_url);
 
 
         var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -148,16 +147,18 @@ function my_admin_page_contents()
 
             });
 
-          }
-
-
-
-
-
-
-
-
-
+          },
+          eventClick: function(info) {
+            // Display the modal with event details
+            jQuery('#eventTitle').text(info.event.title);
+            jQuery('#deleteEventBtn').on('click', function() {
+              // Delete the event
+              info.event.remove();
+              // Close the modal
+              jQuery('#eventModal').modal('hide');
+            });
+            jQuery('#eventModal').modal('show');
+          },
         });
 
 
@@ -175,7 +176,7 @@ function my_admin_page_contents()
 
   <body>
 
-    <h1 style="margin:50px auto;!important">Cruises Settings</h1>
+    <h1 style="margin:50px auto!important;">Cruises Settings</h1>
 
     <div id='calendar'></div>
 
@@ -281,6 +282,7 @@ function my_admin_page_contents()
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
 
             <button type="button" onClick="submitForm()" class="btn btn-primary">Save changes</button>
+            <button type="button" onClick="" id="delete_button" class="btn btn-primary">Delete</button>
 
           </div>
 
@@ -289,6 +291,26 @@ function my_admin_page_contents()
       </div>
 
     </div>
+    <div class="modal fade" id="eventModal" tabindex="-1" role="dialog" aria-labelledby="eventModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="eventModalLabel">Event Details</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p id="eventTitle"></p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" id="deleteEventBtn">Delete Event</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <script>
       function submitForm() {
         var productId = jQuery('#productsSelect option:selected').attr('id');
@@ -303,7 +325,7 @@ function my_admin_page_contents()
           end: end
         };
 
-        console.log('Raw JSON data: ' + JSON.stringify(data));
+        // console.log('Raw JSON data: ' + JSON.stringify(data));
 
 
         var dataToSend = {

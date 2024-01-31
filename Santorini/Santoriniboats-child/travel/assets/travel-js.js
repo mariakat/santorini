@@ -105,15 +105,4 @@ jQuery(document).ready(function ($) {
             }
         });
     });
-    var startDate = jQuery('#acf-field_656c728c188fa').val();
-    var endDate = jQuery('#acf-field_656c72b0bca19').val();
-    jQuery('.wcpa_datepicker').datetimepicker(
-
-        {
-            disabledDates: [startDate, endDate],
-            formatDate: 'd.m.Y'
-        },
-        console.log(startDate + ' ' + endDate)
-    );
-
 });
