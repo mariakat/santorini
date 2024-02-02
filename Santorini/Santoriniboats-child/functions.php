@@ -29,10 +29,12 @@ function save_event_data_callback()
     // Update post meta with a specific key
     update_post_meta($post_id, 'start_date', $data['start']);
     update_post_meta($post_id, 'end_date', $data['end']);
+    update_post_meta($post_id, 'event_id', $data['id']);
     // Process the data (you can save it to a file, database, etc.)
     // For example, saving to a file:
     // $file_path = get_stylesheet_directory() . '/page-templates/events.php';
     $file_path_json = get_stylesheet_directory() . '/page-templates/events_data.json';
+
 
     // Load existing data from the JSON file if it exists
     $existing_data = file_exists($file_path_json) ? json_decode(file_get_contents($file_path_json), true) : [];
@@ -42,13 +44,13 @@ function save_event_data_callback()
 
     // Save the updated array as a JSON file
     file_put_contents($file_path_json, json_encode($existing_data));
+    error_log(print_r($existing_data, true));
 
     // Save some test data to another file
     // file_put_contents($file_path, json_encode($existing_data));
 
     // Send a response (optional)
     wp_send_json_success('Data saved successfully!');
-
     // Always exit to avoid extra output
     wp_die();
 }
@@ -66,12 +68,11 @@ function delete_event_data_callback()
     // Retrieve data sent via AJAX
     $json_data = urldecode($_POST['data']);
     $data = json_decode($json_data, true);
-    $post_id_to_delete = $data['id'];
-    $post_id =  $data['productId'];
+    $post_id_to_delete = $data['productId'];
+    $post_id = $data['id']; // Αλλαγή εδώ
 
-
-    update_post_meta($post_id, 'start_date', ' ');
-    update_post_meta($post_id, 'end_date', ' ');
+    delete_post_meta($post_id, 'start_date');
+    delete_post_meta($post_id, 'end_date');
 
     // Load existing data from the JSON file if it exists
     $file_path_json = get_stylesheet_directory() . '/page-templates/events_data.json';
@@ -79,7 +80,7 @@ function delete_event_data_callback()
 
     // Find and remove the object with the specified ID
     foreach ($existing_data as $key => $event) {
-        if ($event['id'] === $post_id_to_delete) {
+        if ($event['id'] === $post_id) {
             unset($existing_data[$key]);
             break;
         }
@@ -94,6 +95,8 @@ function delete_event_data_callback()
     // Always exit to avoid extra output
     wp_die();
 }
+
+
 
 
 
