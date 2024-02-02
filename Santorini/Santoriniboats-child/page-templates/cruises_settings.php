@@ -156,7 +156,7 @@ function my_admin_page_contents()
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" onClick="submitForm()" class="btn btn-primary">Save changes</button>
+            <button type="button" onClick="submitForm('<?php echo $event_id_str; ?>')" class="btn btn-primary">Save changes</button>
           </div>
         </div>
       </div>
@@ -183,19 +183,19 @@ function my_admin_page_contents()
     </div>
 
     <script>
-      function submitForm() {
+      function submitForm(id) {
         var productId = jQuery('#productsSelect option:selected').attr('id');
         var title = jQuery('#productsSelect option:selected').val();
         var start = jQuery('#evtStart').val();
         var end = jQuery('#evntEnd').val();
 
         var idField = jQuery('#evntID');
-        var id = idField.val() || Math.floor(Math.random() * 100) + 1;
+        var eventId = idField.val() || Math.floor(Math.random() * 100) + 1;
 
-        idField.val(id);
+        idField.val(eventId);
 
         var data = {
-          id: id,
+          id: eventId,
           productId: productId,
           title: title,
           start: start,
@@ -221,12 +221,14 @@ function my_admin_page_contents()
         });
       }
 
+
       function deleteButton() {
         var productId = jQuery('#productsSelect option:selected').attr('id');
         var title = jQuery('#productsSelect option:selected').val();
         var start = jQuery('#evtStart').val();
         var end = jQuery('#evntEnd').val();
         var id = jQuery('#evntID').val();
+        console.log('Deleting event with ID:', id); // Προσθήκη αυτής της γραμμής
 
         var data = {
           id: id,

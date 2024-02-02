@@ -68,7 +68,7 @@ function delete_event_data_callback()
     // Retrieve data sent via AJAX
     $json_data = urldecode($_POST['data']);
     $data = json_decode($json_data, true);
-    $post_id_to_delete = $data['productId'];
+    $post_id_to_delete = $data['id'];
     $post_id = $data['id']; // Αλλαγή εδώ
 
     delete_post_meta($post_id, 'start_date');
@@ -80,7 +80,7 @@ function delete_event_data_callback()
 
     // Find and remove the object with the specified ID
     foreach ($existing_data as $key => $event) {
-        if ($event['id'] === $post_id) {
+        if ($event['id'] === $post_id_to_delete) {
             unset($existing_data[$key]);
             break;
         }
