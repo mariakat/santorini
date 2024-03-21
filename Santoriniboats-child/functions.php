@@ -81,6 +81,7 @@ function delete_event_data_callback()
         $file_path_json = get_stylesheet_directory() . '/page-templates/events_data.json';
         $existing_data = file_exists($file_path_json) ? json_decode(file_get_contents($file_path_json), true) : [];
         // error_log(print_r($existing_data, true));
+        // error_log(print_r($data, true));
 
         
 
@@ -88,13 +89,13 @@ function delete_event_data_callback()
 
         
     // Remove the deleted data from the array
-    $updated_data = array_filter($existing_data, function ($json_data) use ($data) {
-         $event_id = $event['id'];
-         $data_id = $data['id'];
+    $updated_data = array_filter($existing_data, function ($event) use ($data) {
+        return $event != $data;
 
 
-        return $event_id !== $data_id;
+        // return $event_id !== $data_id;
     });
+    
     file_put_contents($file_path_json, json_encode($updated_data));
  
     // Save the updated array as a JSON file
